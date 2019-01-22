@@ -94,6 +94,17 @@ class Dao(object):
         except Exception as e:
             self._erro('Erro ao Excluir!', e)
 
+    def todos(self, classe):
+        """ 
+        Método para buscar todos os objetos no DB.
+        :param classe: Classe do objeto procurado. 
+        :return: Lista com objetos encontrados.
+        """
+        try:
+            return self.session.query(classe).all()
+        except Exception as e:
+            self._erro('Erro ao Buscar!', e)
+
     def buscarID(self, classe, id):
         """ 
         Método que retorna um objeto pelo ID. 

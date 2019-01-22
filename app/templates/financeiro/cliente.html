@@ -1,7 +1,34 @@
 {% extends "base.html" %}
   {% block body %}
   <div class="container">
-    <h1>Clientes</h1>
-    <p class="lead">Clientes Cadastrados</p>
+    <h5 class="submenu"><i class="fas fa-users"></i> Clientes Cadastrados</h5>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nome</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if clientes %}
+          {% for cliente in clientes %}
+            <tr>
+              <td>{{ cliente.id }}</td>
+              <td>{{ cliente.nome }}</td>
+            </tr>
+          {% endfor %}
+        {% endif %}
+      </tbody>
+    </table>
+
   </div><!-- /.container -->
+
+  <style type="text/css">
+    .submenu{
+      text-align: center;
+      margin: 10px;
+    }
+
+  </style>
   {% endblock %}
