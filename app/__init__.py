@@ -2,6 +2,8 @@
 from flask import Flask, render_template
 import logging
 from logging.handlers import RotatingFileHandler
+import locale
+import re
 
 # Define app Flask
 app = Flask(__name__)
@@ -31,3 +33,42 @@ def internal_error(error):
 
 # Principal
 from app.controller import main
+
+# Blueprints
+from app.pedidos.controller import pedidos
+
+# Registra blueprints
+app.register_blueprint(pedidos, url_prefix='/pedidos')
+
+# Define o locale BR
+def setlocale():
+    try:
+        locale.setlocale(locale.LC_ALL, 'pt_BR.utf-8')
+    except:
+        locale.setlocale(locale.LC_ALL, 'portuguese_brazil')
+
+def get_uri():
+    """
+    Método que retorna um dicionario com os dados da URI de conexão com o banco de dados.
+    :return: dict com informações user, password, host e db_name
+    """
+    uri = app.config['DB_URI']
+    user, password = re.search('//(.*)@', uri).group(1).split(':')
+    host, db = re.search('@(.*)', uri).group(1).split('/')
+    return {'user': user, 'password': password, 'host': host, 'db': db}
+
+def _conecta():
+    from app.db import conecta
+    conecta()
+
+# Cria o banco de dados e gera dados fictícios para exemplo do desafio.
+if app.config['CRIAR_DB']:
+    from app.db import Dao
+    from app.teste import criar_exemplos, criar_db, alterar_config
+    criar_db()
+    _conecta()
+    Dao.criar_tabelas()
+    criar_exemplos()
+    alterar_config()
+else:
+    _conecta()
