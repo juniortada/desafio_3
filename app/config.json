@@ -1,0 +1,5 @@
+{
+  "DEBUG": true,
+  "CRIAR_DB": true,
+  "DB_URI": "postgresql+psycopg2://postgres:1234@localhost/base"
+}
