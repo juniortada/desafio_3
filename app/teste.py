@@ -1,6 +1,6 @@
 from app import get_uri
 from app.db import sessao, Dao
-from app.pedidos.model import Cliente, Produto
+from app.financeiro.model import Cliente, Produto
 from datetime import datetime
 from decimal import Decimal
 import psycopg2

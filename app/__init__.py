@@ -35,10 +35,10 @@ def internal_error(error):
 from app.controller import main
 
 # Blueprints
-from app.pedidos.controller import pedidos
+from app.financeiro.controller import financeiro
 
 # Registra blueprints
-app.register_blueprint(pedidos, url_prefix='/pedidos')
+app.register_blueprint(financeiro, url_prefix='/financeiro')
 
 # Define o locale BR
 def setlocale():
