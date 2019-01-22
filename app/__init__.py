@@ -47,6 +47,15 @@ def setlocale():
     except:
         locale.setlocale(locale.LC_ALL, 'portuguese_brazil')
 
+# Formato Moeda
+def formato_dinheiro(value):
+    """Formata reais para o Jinja"""
+    try:
+        return locale.currency(value) if value is not None else ''
+    except Exception as e:
+        log.exception('Erro no format format_currency do jinja | ' + str(e))
+        return ''
+
 def get_uri():
     """
     Método que retorna um dicionario com os dados da URI de conexão com o banco de dados.
@@ -72,3 +81,7 @@ if app.config['CRIAR_DB']:
     alterar_config()
 else:
     _conecta()
+
+# filtros
+setlocale()
+app.jinja_env.filters['dinheiro'] = formato_dinheiro
