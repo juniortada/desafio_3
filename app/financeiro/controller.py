@@ -23,6 +23,17 @@ def cliente():
         return render_template('index.html')
 
 
+@financeiro.route('/_clientes/', methods=['GET', 'POST'])
+def _clientes():
+    try:
+        with sessao() as session:
+            clientes = Dao(session).todos(Cliente)
+            clientes = [{"id":str(i.id),"nome":i.nome} for i in clientes]
+            return jsonify(clientes=clientes)
+    except Exception as e:
+        log.exception('Erro ajax clientes!' + str(e))
+
+
 @financeiro.route('/produto', methods=['GET'])
 def produto():
     try:

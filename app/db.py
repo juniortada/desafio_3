@@ -117,6 +117,26 @@ class Dao(object):
         except Exception as e:
             self._erro('Erro ao Buscar por ID!', e)
 
+
+    def buscarLike(self, classe, **kwargs):
+        """
+        Método que busca a partir do atributo parecido(like).
+           Ex: buscarLike(Cliente, nome='Luke')
+        :param classe: Classe do objeto procurado.
+        return: Lista com objetos match
+        """
+        try:
+            for i in kwargs.items():
+                atributo = i
+            palavras = atributo[1].split(' ')
+            attr = getattr(classe, atributo[0])  # pega a coluna pelo nome
+            pesquisa = [attr.ilike('%{}%'.format(p)) for p in palavras]
+            
+            return self.session.query(classe).filter(*pesquisa).all()
+        except Exception as e:
+            self._erro('Erro ao Buscar Like!', e)
+
+
     def _erro(self, msg, erro):
         """ 
         Método executado quando ocorre erro nas ações com DB. 

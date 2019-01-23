@@ -1,6 +1,6 @@
 {% extends "base.html" %}
   {% block body %}
-  <div class="container">
+  <div id="app1" class="container">
     <div class="row">
       <div class="col"></div>
       <div class="col"><h5 class="submenu"><i class="fas fa-cart-plus"></i> Novo Pedido</h5></div>
@@ -8,12 +8,14 @@
     </div>
 
     <div class="row form-group">
-      <div class="col-1"><label for="cliente" class="col-form-label">Cliente:</label></div>
+      <div class="col-1"><label for="nome" class="col-form-label">Cliente:</label></div>
       <div class="col-11">
-        <input type="text" autocomplete="off" class="form-control" id="cliente" name="cliente" required
-              {% if pedido %}
-                value="{{cliente.nome}}"
-              {% endif %}>
+        <select v-model="cliente" class="form-control">
+          <option disabled selected="" value="">Escolha um Cliente</option>
+          <option v-for="cli in clientes" :value="cli.id">
+            {% raw %}{{ cli.nome }}{% endraw %}
+          </option>
+        </select>
       </div>
     </div>
 
@@ -86,8 +88,6 @@
   {% endblock %}
 
     {% block javascript %}
-    <!-- Autocomplete -->
-    <script src="{{ url_for('static', filename='js/typeahead.bundle.min.js') }}"></script>
     <!-- JS -->
     <script src="{{ url_for('static', filename='js/vue.min.js') }}"></script>
     <!-- JS -->
