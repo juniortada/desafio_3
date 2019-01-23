@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+  {% block body %}
+  <div class="container">
+    <div class="row">
+      <div class="col"></div>
+      <div class="col"><h5 class="submenu"><i class="fas fa-cart-plus"></i> Novo Pedido</h5></div>
+      <div class="col"></div>   
+    </div>
+
+    <div class="row form-group">
+      <div class="col-1"><label for="cliente" class="col-form-label">Cliente:</label></div>
+      <div class="col-11">
+        <input type="text" autocomplete="off" class="form-control" id="cliente" name="cliente" required
+              {% if pedido %}
+                value="{{cliente.nome}}"
+              {% endif %}>
+      </div>
+    </div>
+
+    <div class="row form-group">
+      <div class="col-1"><label for="produto" class="col-form-label">Produto:</label></div>
+      <div class="col-5"><input type="text" autocomplete="off" class="form-control" id="produto_nome" name="produto_nome"></div>
+      <div class="col-1"><label for="quantidade" class="col-form-label">Qtde:</label></div>
+      <div class="col-1"><input type="number" autocomplete="off" class="form-control" id="quantidade" name="quantidade"></div>
+      <div class="col-1"><label for="preco" class="col-form-label">Preço:</label></div>
+      <div class="col-2"><input type="text" autocomplete="off" class="form-control" id="preco" name="preco"></div>
+      <div class="col-1"><button class="btn btn-primary"><i class="fas fa-plus-circle"></i></button></div>
+    </div>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Descrição</th>
+          <th scope="col">Qtde</th>
+          <th scope="col">Preço</th>
+          <th scope="col">Total</th>
+          <th scope="col" class="centro">Rentabilidade</th>
+          <th scope="col" class="centro">Excluir</i></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1234</td>
+          <td>Super Star Destroyer</td>
+          <td>1</td>
+          <td>R$ 4570000,00</td>
+          <td>R$ 4570000,00</td>
+          <td class="centro">Boa</td>
+          <td class="centro"><button class="btn btn-danger btn-sm btn_excluir"><i class="fas fa-times-circle"></i></button></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="row">
+      <div class="col-3"></div>
+      <div class="col-6 botoes">
+        <button class="btn" onclick="history.go(-1)"><i class="fa fa-undo" aria-hidden="true"></i> Voltar</button>
+        <button class="btn btn-success" ><i class="fa fa-check" aria-hidden="true"></i> Salvar</button>
+      </div>
+    </div>
+
+  </div><!-- /.container -->
+
+  {% endblock %}
+
+  {% block head %}
+  <style type="text/css">
+    .submenu{
+      text-align: center;
+      margin: 10px;
+    }
+    .botoes{
+      text-align: center;
+    }
+    .botoes button {
+      margin: 0 2% 0 2%;
+    }
+    .centro{
+      text-align: center;
+    }
+    .btn_excluir{
+      line-height: initial;
+    }
+  </style>
+  {% endblock %}
+
+    {% block javascript %}
+    <!-- Autocomplete -->
+    <script src="{{ url_for('static', filename='js/typeahead.bundle.min.js') }}"></script>
+    <!-- JS -->
+    <script src="{{ url_for('static', filename='js/vue.min.js') }}"></script>
+    <!-- JS -->
+    <script src="{{ url_for('static', filename='js/pedido.js') }}"></script>
+    {% endblock %}

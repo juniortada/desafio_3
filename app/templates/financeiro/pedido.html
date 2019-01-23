@@ -1,7 +1,42 @@
 {% extends "base.html" %}
   {% block body %}
   <div class="container">
-    <h1>Pedidos</h1>
-    <p class="lead">Pedidos Cadastrados</p>
+    <div class="row">
+      <div class="col"></div>
+      <div class="col"><h5 class="submenu"><i class="fas fa-shopping-cart"></i> Pedidos Cadastrados</h5></div>
+      <div class="col" id="btn_novo"><a href="{{ url_for('financeiro.pedido_novo') }}" class="btn btn-primary"><i class="fas fa-cart-plus"></i> Novo Pedido</a></div>   
+    </div>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Cliente</th>
+          <th scope="col">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if pedidos %}
+          {% for pedido in pedidos %}
+            <tr>
+              <td>{{ pedido.id }}</td>
+              <td>{{ pedido.cliente.nome }}</td>
+            </tr>
+          {% endfor %}
+        {% endif %}
+      </tbody>
+    </table>
+
   </div><!-- /.container -->
+
+  <style type="text/css">
+    .submenu{
+      text-align: center;
+      margin: 10px;
+    }
+    #btn_novo{
+      text-align: right;
+      margin-top: 2px;
+    }
+  </style>
   {% endblock %}

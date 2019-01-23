@@ -37,6 +37,16 @@ def produto():
         return render_template('index.html')
 
 
-@financeiro.route('/pedido', methods=['GET', 'POST'])
+@financeiro.route('/pedido', methods=['GET'])
 def pedido():
     return render_template('financeiro/pedido.html')
+
+
+@financeiro.route('/pedido/novo', methods=['GET', 'POST'])
+def pedido_novo():
+    return render_template('financeiro/pedido_novo.html')
+
+
+@financeiro.route('/pedido/editar/<int:id>', methods=['GET', 'POST'])
+def pedido_editar(id):
+    return render_template('financeiro/pedido_novo.html')
