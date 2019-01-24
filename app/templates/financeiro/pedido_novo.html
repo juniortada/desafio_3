@@ -32,7 +32,7 @@
       <div class="col-1"><label for="quantidade" class="col-form-label">Qtde:</label></div>
       <div class="col-1"><input type="number" autocomplete="off" class="form-control" id="quantidade" name="quantidade" @change="validarQuantidade()"></div>
       <div class="col-1"><label for="preco" class="col-form-label">Preço:</label></div>
-      <div class="col-2"><input type="text" autocomplete="off" class="form-control" id="preco" name="preco"></div>
+      <div class="col-2"><input type="text" autocomplete="off" class="form-control" id="preco" name="preco" @change="validarPreco()"></div>
       <div class="col-1"><button class="btn btn-primary" @click="addItem"><i class="fas fa-plus-circle"></i></button></div>
     </div>
 
@@ -63,17 +63,17 @@
   </div><!-- /.container -->
 
   <!-- Modal -->
-  <div class="modal fade" id="modal_quantidade" tabindex="-1" role="dialog" aria-labelledby="Quantidade Inválida!" aria-hidden="true">
+  <div class="modal fade" id="modal_erro" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="qtde_invalida">Quantidade Inválida</h5>
+          <h5 class="modal-title"><span id="titulo_erro"></span></h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <p><span id="msg_erro_quantidade"></span></p>
+          <p><span id="msg_erro"></span></p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btn_modal_fechar">Fechar</button>

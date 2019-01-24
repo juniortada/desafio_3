@@ -90,18 +90,24 @@ var app = new Vue({
     		var quantidade = $('#quantidade').val();
     		var multiplo = self.item.multiplo;
     		if(quantidade <= 0){
-    			$('#msg_erro_quantidade').text('A quantidade deve ser maior que 0');
-				$('#modal_quantidade').modal('show');
+    			$('#titulo_erro').text('Quantidade Inválida');
+    			$('#msg_erro').text('A quantidade deve ser maior que 0');
+				$('#modal_erro').modal('show');
     		}
     		else{
     			if(multiplo){
     				if(quantidade % multiplo != 0){
-    					$('#msg_erro_quantidade').text(`A quantidade deve ser multiplo de ${multiplo}. 
+    					$('#titulo_erro').text('Quantidade Inválida');
+    					$('#msg_erro').text(`A quantidade deve ser multiplo de ${multiplo}. 
     					Exemplo: ${multiplo}, ${multiplo * 2}, ${multiplo * 3}, etc.`);
-						$('#modal_quantidade').modal('show');
+						$('#modal_erro').modal('show');
     				}
     			}
     		}
+    	},
+
+    	validarPreco: function(event){
+    		var preco = decimal($('#preco').val());
     	},
 
     	addItem: function(event){
@@ -112,7 +118,7 @@ var app = new Vue({
 	    		novo_item.produto_id = self.item['id'];
 	    		novo_item.nome = self.item['nome'];
 	    		novo_item.quantidade = $('#quantidade').val();
-	    		novo_item.preco = toFloat($('#preco').val());
+	    		novo_item.preco = decimal($('#preco').val());
 	    		novo_item.total = parseInt(novo_item.quantidade) * novo_item.preco;
 	    		self.itens.push(novo_item);
     		} catch(err){
@@ -124,12 +130,12 @@ var app = new Vue({
 
 // configurações de ajustes no modal erro quantidade
 // modal fechado
-$('#modal_quantidade').on('hidden.bs.modal', function (e) {
+$('#modal_erro').on('hidden.bs.modal', function (e) {
   app.produtoSelecionado(e);
 });
 
 // modal aberto
-$('#modal_quantidade').on('shown.bs.modal', function () {
+$('#modal_erro').on('shown.bs.modal', function () {
   $('#btn_modal_fechar').trigger('focus');
 })
 
@@ -143,7 +149,7 @@ function dinheiro(value){
 
 // formato decimal
 //Recebe um valor e retorna o float com 2 cadas decimais ou o valor passado.
-function toFloat(valor, precisao=2) {
+function decimal(valor, precisao=2) {
     if (valor === null || valor === '' || valor === undefined)
         return null;
     valor = valor.replace('R$','').trim().replace(/\./g,'').replace(',','.');
