@@ -13,8 +13,7 @@ financeiro = Blueprint('financeiro', __name__)
 def cliente():
     try:
         with sessao() as session:
-            dao = Dao(session)
-            clientes = dao.todos(Cliente)
+            clientes = Dao(session).todos(Cliente)
             return render_template('financeiro/cliente.html', clientes=clientes)
     except Exception as e:
         msg = 'Erro ao exibir clientes!'
@@ -38,14 +37,24 @@ def _clientes():
 def produto():
     try:
         with sessao() as session:
-            dao = Dao(session)
-            produtos = dao.todos(Produto)
+            produtos = Dao(session).todos(Produto)
             return render_template('financeiro/produto.html', produtos=produtos)
     except Exception as e:
         msg = 'Erro ao exibir produtos!'
         log.exception(msg + str(e))
         flash(msg, 'alert-danger')
         return render_template('index.html')
+
+
+@financeiro.route('/_produtos/', methods=['GET', 'POST'])
+def _produtos():
+    try:
+        with sessao() as session:
+            produtos = Dao(session).todos(Produto)
+            produtos = [{"id":str(i.id),"nome":i.nome, "preco":i.preco, "multiplo":i.multiplo} for i in produtos]
+            return jsonify(produtos=produtos)
+    except Exception as e:
+        log.exception('Erro ajax produtos!' + str(e))
 
 
 @financeiro.route('/pedido', methods=['GET'])
