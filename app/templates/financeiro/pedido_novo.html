@@ -36,6 +36,16 @@
       <div class="col-1"><button class="btn btn-primary" @click="addItem"><i class="fas fa-plus-circle"></i></button></div>
     </div>
 
+    <div class="row form-group">
+      <div class="col-1"></div>
+      <div class="col-2">
+        <label class="col-form-label">Rentabilidade:</label>
+      </div>
+      <div class="col-2">
+        <label class="col-form-label"><span id="rentabilidade"></span></label>
+      </div>
+    </div>
+
     <table class="table table-striped">
       <thead>
         <tr>
@@ -52,13 +62,16 @@
       </tbody>
     </table>
 
-    <div class="row">
-      <div class="col-3"></div>
-      <div class="col-6 botoes">
-        <button class="btn" onclick="history.go(-1)"><i class="fa fa-undo" aria-hidden="true"></i> Voltar</button>
-        <button class="btn btn-success" ><i class="fa fa-check" aria-hidden="true"></i> Salvar</button>
+    <form id="pedido" name="pedido" role="form" method="post">
+      <input type="hidden" id="pedidoJson" name="pedidoJson" value="{{pedidoJson}}"/>
+      <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6 botoes">
+          <button class="btn" onclick="history.go(-1)"><i class="fa fa-undo" aria-hidden="true"></i> Voltar</button>
+          <button class="btn btn-success"  @click="submit"><i class="fa fa-check" aria-hidden="true"></i> Salvar</button>
+        </div>
       </div>
-    </div>
+    </form>
 
   </div><!-- /.container -->
 
@@ -110,4 +123,22 @@
     <script src="{{ url_for('static', filename='js/vue.min.js') }}"></script>
     <!-- JS -->
     <script src="{{ url_for('static', filename='js/pedido.js') }}"></script>
+    <script type="text/javascript">
+      {% if pedido %}
+        // cliente
+        app.cliente = pedido.cliente_id
+        // itens
+        {% for item in pedido.itens %}
+          var novo_item = [];
+          novo_item.id = item.id;
+          novo_item.produto_id = item.produto_id;
+          novo_item.nome = item.produto.nome;
+          novo_item.quantidade = item.quantidade;
+          novo_item.preco = decimal(item.preco);
+          novo_item.total = decimal(item.total);
+          novo_item.rentabilidade = item.rentabilidade;
+          app.itens.push(novo_item);
+        {% endfor %}
+      {% endif %}
+    </script>
     {% endblock %}

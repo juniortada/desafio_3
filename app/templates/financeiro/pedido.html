@@ -12,7 +12,9 @@
         <tr>
           <th scope="col">#</th>
           <th scope="col">Cliente</th>
+          <th scope="col">Itens</th>
           <th scope="col">Total</th>
+          <th scope="col">Editar</th>
         </tr>
       </thead>
       <tbody>
@@ -21,6 +23,9 @@
             <tr>
               <td>{{ pedido.id }}</td>
               <td>{{ pedido.cliente.nome }}</td>
+              <td>{{ pedido.itens|soma }}</td>
+              <td>R$ 1234,00 </td>
+              <td>Editar</td>
             </tr>
           {% endfor %}
         {% endif %}

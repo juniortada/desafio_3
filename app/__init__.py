@@ -56,6 +56,14 @@ def formato_dinheiro(value):
         log.exception('Erro no format format_currency do jinja | ' + str(e))
         return ''
 
+# soma valores
+def formato_soma(itens):
+    """ Formata soma de itens """
+    try:
+        return len(itens)
+    except Exception as e:
+        return ''
+
 def get_uri():
     """
     Método que retorna um dicionario com os dados da URI de conexão com o banco de dados.
@@ -85,3 +93,4 @@ else:
 # filtros
 setlocale()
 app.jinja_env.filters['dinheiro'] = formato_dinheiro
+app.jinja_env.filters['soma'] = formato_soma

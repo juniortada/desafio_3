@@ -1,8 +1,10 @@
 # Author: Junior Tada
-from flask import Blueprint, request, render_template, jsonify, flash
+from flask import Blueprint, request, render_template, jsonify, flash, url_for, redirect
 from app.db import sessao, Dao
-from app.financeiro.model import Cliente, Produto
+from app.financeiro.model import Cliente, Produto, Pedido, Item
 from app import log
+import json
+from decimal import Decimal
 
 
 # Define o blueprint
@@ -59,14 +61,72 @@ def _produtos():
 
 @financeiro.route('/pedido', methods=['GET'])
 def pedido():
-    return render_template('financeiro/pedido.html')
+    try:
+        with sessao() as session:
+            pedidos = Dao(session).todos(Pedido)
+            return render_template('financeiro/pedido.html', pedidos=pedidos)
+    except Exception as e:
+        msg = 'Erro ao exibir pedidos!'
+        log.exception(msg + str(e))
+        flash(msg, 'alert-danger')
+        return render_template('index.html')
 
 
 @financeiro.route('/pedido/novo', methods=['GET', 'POST'])
 def pedido_novo():
-    return render_template('financeiro/pedido_novo.html')
+    try:
+        if request.method == 'POST':
+            pedido = Pedido()
+            with sessao() as session:
+                dao = Dao(session)
+                if _salvar(pedido, dao):
+                    flash('Pedido Salvo com Sucesso!', 'alert-success')
+                    return redirect(url_for('financeiro.pedido'))
+        return render_template('financeiro/pedido_novo.html')
+    except Exception as e:
+        return render_template('index.html')
 
 
 @financeiro.route('/pedido/editar/<int:id>', methods=['GET', 'POST'])
 def pedido_editar(id):
-    return render_template('financeiro/pedido_novo.html')
+    try:
+        with sessao() as session:
+            dao = Dao(session)
+            pedido = dao.buscarID(Pedido, int(id))
+            if pedido:
+                if request.method == 'POST':
+                    if _salvar(pedido, dao):
+                        flash('Pedido Alterado com Sucesso!', 'alert-success')
+                        return url_for('financeiro.pedido')
+                return render_template('financeiro/pedido_novo.html', pedido=pedido)           
+    except Exception as e:
+        return render_template('index.html')
+
+
+def _salvar(pedido, dao):
+    form = json.loads(request.form['pedidoJson'])
+    if form:
+        # cliente
+        if form['cliente']:
+            cliente = dao.buscarID(Cliente, int(form['cliente']))
+            if cliente:
+                pedido.cliente = cliente
+        # limpa itens caso exista
+        if pedido.itens:
+            for i in pedido.itens:
+                if i:
+                    dao.excluir(i)
+            pedido.itens.clear()
+        # itens
+        if form['itens']:
+            for i in form['itens']:
+                item = form['itens'][i]
+                novo_item = Item()
+                novo_item.produto_id = item['produto_id']
+                novo_item.preco = Decimal(str(item['preco']))
+                novo_item.quantidade = int(item['quantidade'])
+                novo_item.rentabilidade = item['rentabilidade']
+                pedido.itens.append(novo_item)
+        # salva no banco
+        dao.salvar(pedido)
+        return True

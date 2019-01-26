@@ -25,6 +25,7 @@ class Item(Base):
     produto_id = Column(Integer, ForeignKey('produto.id'))
     produto = relationship("Produto", backref="itens", lazy="joined")
     preco = Column(DECIMAL(10,2))
+    total = Column(DECIMAL(10,2))
     quantidade = Column(Integer)
     # one-to-many pedido-item
     pedido_id = Column(Integer, ForeignKey('pedido.id'))
