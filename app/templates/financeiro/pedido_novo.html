@@ -62,7 +62,7 @@
       </tbody>
     </table>
 
-    <form id="pedido" name="pedido" role="form" method="post">
+    <form id="form_pedido" name="form_pedido" role="form" method="post">
       <input type="hidden" id="pedidoJson" name="pedidoJson" value="{{pedidoJson}}"/>
       <div class="row">
         <div class="col-3"></div>
@@ -123,22 +123,6 @@
     <script src="{{ url_for('static', filename='js/vue.min.js') }}"></script>
     <!-- JS -->
     <script src="{{ url_for('static', filename='js/pedido.js') }}"></script>
-    <script type="text/javascript">
-      {% if pedido %}
-        // cliente
-        app.cliente = pedido.cliente_id
-        // itens
-        {% for item in pedido.itens %}
-          var novo_item = [];
-          novo_item.id = item.id;
-          novo_item.produto_id = item.produto_id;
-          novo_item.nome = item.produto.nome;
-          novo_item.quantidade = item.quantidade;
-          novo_item.preco = decimal(item.preco);
-          novo_item.total = decimal(item.total);
-          novo_item.rentabilidade = item.rentabilidade;
-          app.itens.push(novo_item);
-        {% endfor %}
-      {% endif %}
-    </script>
+    
+
     {% endblock %}

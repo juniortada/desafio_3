@@ -38,4 +38,4 @@ class Pedido(Base):
     cliente_id = Column(Integer, ForeignKey('cliente.id'))
     cliente = relationship("Cliente", backref="pedidos", lazy="joined")
     # many-to-one item-pedido
-    itens = relationship("Item", backref="pedidos")
+    itens = relationship("Item", backref="pedidos", lazy="joined")

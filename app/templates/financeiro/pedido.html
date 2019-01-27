@@ -24,7 +24,7 @@
               <td>{{ pedido.id }}</td>
               <td>{{ pedido.cliente.nome }}</td>
               <td>{{ pedido.itens|soma }}</td>
-              <td>R$ 1234,00 </td>
+              <td>{{ pedido.total|dinheiro}}</td>
               <td>Editar</td>
             </tr>
           {% endfor %}

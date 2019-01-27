@@ -97,14 +97,25 @@ def pedido_editar(id):
                 if request.method == 'POST':
                     if _salvar(pedido, dao):
                         flash('Pedido Alterado com Sucesso!', 'alert-success')
-                        return url_for('financeiro.pedido')
-                return render_template('financeiro/pedido_novo.html', pedido=pedido)           
+                        return redirect(url_for('financeiro.pedido'))
+                itens = [{
+                        'produto_id': str(item.produto_id), 'nome': item.produto.nome,
+                        'quantidade': str(item.quantidade), 'preco': str(item.preco), 'total': str(item.total),
+                        'rentabilidade': item.rentabilidade
+                        } for item in pedido.itens] 
+                dictPedido = {
+                    'cliente': str(pedido.cliente_id),
+                    'itens': itens
+                }
+                pedidoJson = json.dumps(dictPedido)
+                return render_template('financeiro/pedido_novo.html', pedidoJson=pedidoJson)           
     except Exception as e:
         return render_template('index.html')
 
 
 def _salvar(pedido, dao):
     form = json.loads(request.form['pedidoJson'])
+    print(form)
     if form:
         # cliente
         if form['cliente']:

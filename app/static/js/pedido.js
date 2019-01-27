@@ -42,6 +42,11 @@ var app = new Vue({
     	this.$nextTick(function (){
 	        this.buscarClientes();
 	        this.buscarProdutos();
+	        valJson = $('#pedidoJson').val();
+	        if(valJson !== ''){
+	        	var editarJson = JSON.parse(valJson);
+	        	this.carregarPedido(editarJson);
+	        }
   		})
     },
 
@@ -72,6 +77,22 @@ var app = new Vue({
 	                console.log(error);
 	            }
 	        });
+    	},
+
+    	carregarPedido: function(json){
+    		var self = this;
+    		self.cliente = json['cliente'];
+    		for(i in json['itens']){
+    			var novo_item = [];
+	    		novo_item.id = self.itens.length;
+	    		novo_item.produto_id = json.itens[i].produto_id;
+	    		novo_item.nome = json.itens[i].nome;
+	    		novo_item.quantidade = json.itens[i].quantidade;
+	    		novo_item.preco = json.itens[i].preco
+	    		novo_item.total = json.itens[i].total
+	    		novo_item.rentabilidade = json.itens[i].rentabilidade
+	    		self.itens.push(novo_item);
+    		}
     	},
 
     	produtoSelecionado: function(event){
@@ -148,7 +169,7 @@ var app = new Vue({
 	    		novo_item.nome = self.item['nome'];
 	    		novo_item.quantidade = $('#quantidade').val();
 	    		novo_item.preco = decimal($('#preco').val());
-	    		novo_item.total = parseInt(novo_item.quantidade) * novo_item.preco;
+	    		novo_item.total = parseFloat(parseInt(novo_item.quantidade) * novo_item.preco).toFixed(2);
 	    		novo_item.rentabilidade = self.item['rentabilidade'];
 	    		self.itens.push(novo_item);
     		} catch(err){
@@ -183,7 +204,7 @@ var app = new Vue({
 							cliente: self.cliente, 
 							itens: itens});
 						$('#pedidoJson').val(pedidos);
-						$('#pedido').submit();
+						$('#form_pedido').submit();
 					}
 				}
     		}
