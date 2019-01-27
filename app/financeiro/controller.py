@@ -1,5 +1,5 @@
 # Author: Junior Tada
-from flask import Blueprint, request, render_template, jsonify, flash, url_for, redirect
+from flask import Blueprint, request, render_template, jsonify, flash, url_for, redirect, flash
 from app.db import sessao, Dao
 from app.financeiro.model import Cliente, Produto, Pedido, Item
 from app import log
@@ -84,6 +84,9 @@ def pedido_novo():
                     return redirect(url_for('financeiro.pedido'))
         return render_template('financeiro/pedido_novo.html')
     except Exception as e:
+        msg = 'Erro ao salvar pedido!'
+        log.exception(msg + str(e))
+        flash(msg, 'alert-danger')
         return render_template('index.html')
 
 
@@ -110,6 +113,9 @@ def pedido_editar(id):
                 pedidoJson = json.dumps(dictPedido)
                 return render_template('financeiro/pedido_novo.html', pedidoJson=pedidoJson)           
     except Exception as e:
+        msg = 'Erro ao editar pedido!'
+        log.exception(msg + str(e))
+        flash(msg, 'alert-danger')
         return render_template('index.html')
 
 
@@ -135,6 +141,7 @@ def _salvar(pedido, dao):
                 novo_item = Item()
                 novo_item.produto_id = item['produto_id']
                 novo_item.preco = Decimal(str(item['preco']))
+                novo_item.total = Decimal(str(item['total']))
                 novo_item.quantidade = int(item['quantidade'])
                 novo_item.rentabilidade = item['rentabilidade']
                 pedido.itens.append(novo_item)

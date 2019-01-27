@@ -67,8 +67,8 @@
       <div class="row">
         <div class="col-3"></div>
         <div class="col-6 botoes">
-          <button class="btn" onclick="history.go(-1)"><i class="fa fa-undo" aria-hidden="true"></i> Voltar</button>
-          <button class="btn btn-success"  @click="submit"><i class="fa fa-check" aria-hidden="true"></i> Salvar</button>
+          <button class="btn" onclick="location.href='{{ url_for('financeiro.pedido') }}'" type="button"><i class="fa fa-undo" aria-hidden="true"></i> Voltar</button>
+          <button class="btn btn-success"  @click="submit" type="button"><i class="fa fa-check" aria-hidden="true"></i> Salvar</button>
         </div>
       </div>
     </form>

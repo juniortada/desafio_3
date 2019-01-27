@@ -12,20 +12,20 @@
         <tr>
           <th scope="col">#</th>
           <th scope="col">Cliente</th>
-          <th scope="col">Itens</th>
+          <th scope="col" class="centro">Itens</th>
           <th scope="col">Total</th>
-          <th scope="col">Editar</th>
+          <th scope="col" class="centro">Editar</th>
         </tr>
       </thead>
       <tbody>
         {% if pedidos %}
           {% for pedido in pedidos %}
-            <tr>
+            <tr onclick="location.href='{{ url_for('financeiro.pedido_editar', id=pedido.id) }}'">
               <td>{{ pedido.id }}</td>
               <td>{{ pedido.cliente.nome }}</td>
-              <td>{{ pedido.itens|soma }}</td>
-              <td>{{ pedido.total|dinheiro}}</td>
-              <td>Editar</td>
+              <td class="centro">{{ pedido.itens|soma }}</td>
+              <td>{{ pedido.itens|soma_total}}</td>
+              <td class="centro"><a href="{{ url_for('financeiro.pedido_editar', id=pedido.id) }}"><i class="fas fa-edit"></i></a></td>
             </tr>
           {% endfor %}
         {% endif %}
@@ -42,6 +42,9 @@
     #btn_novo{
       text-align: right;
       margin-top: 2px;
+    }
+    .centro{
+      text-align: center;
     }
   </style>
   {% endblock %}

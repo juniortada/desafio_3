@@ -12,7 +12,7 @@ Vue.component('linha-item', {
 	          	<td>{{linha.quantidade}}</td> \
 	          	<td>{{dinheiro(linha.preco)}}</td> \
 	          	<td>{{dinheiro(linha.total)}}</td> \
-	          	<td class="centro">Boa</td> \
+	          	<td class="centro">{{linha.rentabilidade}}</td> \
 	          	<td class="centro"><button class="btn btn-danger btn-sm btn_excluir" @click="excluirItem(linha.id)"><i class="fas fa-times-circle"></i></button></td> \
 	        </tr>',
     methods:{
@@ -169,7 +169,7 @@ var app = new Vue({
 	    		novo_item.nome = self.item['nome'];
 	    		novo_item.quantidade = $('#quantidade').val();
 	    		novo_item.preco = decimal($('#preco').val());
-	    		novo_item.total = parseFloat(parseInt(novo_item.quantidade) * novo_item.preco).toFixed(2);
+	    		novo_item.total = Number(parseInt(novo_item.quantidade) * novo_item.preco).toFixed(2);
 	    		novo_item.rentabilidade = self.item['rentabilidade'];
 	    		self.itens.push(novo_item);
     		} catch(err){
@@ -231,7 +231,7 @@ $('#modal_erro').on('shown.bs.modal', function () {
 // formato monetário
 function dinheiro(value){
 	var formato = { minimumFractionDigits: 2 , style: 'currency', currency: 'BRL' };
-	return value.toLocaleString('pt-BR', formato);
+	return parseFloat(value).toLocaleString('pt-BR', formato);
 }
 
 // formato decimal
