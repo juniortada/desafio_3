@@ -1,0 +1,15 @@
+[Unit]
+Description=gunicorn server desafio_3
+After=network.target
+
+[Service]
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/desafio_3
+ExecStart=/usr/bin/gunicorn3 --workers 3 --timeout 300 --bind 0.0.0.0:8000 app:app
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
