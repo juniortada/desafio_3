@@ -8,6 +8,7 @@ desafio técnico
 ### tecnologias utilizadas
 
 - python 3.6.3
+- unittest
 - postgreSQL
 - sqlalchemy
 - flask
