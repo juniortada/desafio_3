@@ -5,7 +5,7 @@ desafio técnico
 
 - http://18.231.80.76:8000
 
-### tecnologias utilizadas
+### Tecnologias utilizadas
 
 - python 3.6.3
 - unittest
@@ -17,7 +17,15 @@ desafio técnico
 - jquery
 - fontawesome (ícones)
 
-### instalação
+### Instalação
+
+- É necessário possuir postgreSQL instalado no sistema.
+- Edite o arquivo config.json com USUÁRIO e SENHA do banco no campo DB_URI.
+
+```json
+"DB_URI": "postgresql+psycopg2://USUÁRIO:SENHA@localhost/base"
+```
+
 
 ```sh
 sudo pip3 install -r requirements.txt
