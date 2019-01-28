@@ -4,6 +4,7 @@ import logging
 from logging.handlers import RotatingFileHandler
 import locale
 import re
+from decimal import Decimal
 
 # Define app Flask
 app = Flask(__name__)
@@ -49,7 +50,10 @@ def setlocale():
 
 # Formato Moeda
 def formato_dinheiro(value):
-    """Formata reais para o Jinja"""
+    """
+    Método para formatar valor Decimal para Moeda (R$).
+    :return: valor formatado para moeda (R$).
+    """
     try:
         return locale.currency(value) if value is not None else ''
     except Exception as e:
@@ -58,9 +62,26 @@ def formato_dinheiro(value):
 
 # soma valores
 def formato_soma(itens):
-    """ Formata soma de itens """
+    """
+    Método que retorna a quantidade de itens de um pedido.
+    :return: int com a quantidade de itens.
+    """
     try:
         return len(itens)
+    except Exception as e:
+        return ''
+
+# soma total
+def formato_soma_total(itens):
+    """ 
+    Método que retorna a soma total do pedido.
+    :return: valor total do pedido.
+    """
+    total = Decimal(0);
+    try:
+        for item in itens:
+            total = total + item.total
+        return formato_dinheiro(total)
     except Exception as e:
         return ''
 
@@ -90,7 +111,8 @@ if app.config['CRIAR_DB']:
 else:
     _conecta()
 
-# filtros
+# filtros para template
 setlocale()
 app.jinja_env.filters['dinheiro'] = formato_dinheiro
 app.jinja_env.filters['soma'] = formato_soma
+app.jinja_env.filters['soma_total'] = formato_soma_total

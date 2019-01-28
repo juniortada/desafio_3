@@ -3,6 +3,7 @@
 Vue.prototype.axios = window.axios;
 
 // componentes
+// componente linha da tabela itens
 Vue.component('linha-item', {
 
  	props: ['linha'],
@@ -17,6 +18,7 @@ Vue.component('linha-item', {
 	        </tr>',
     methods:{
 
+    	// método para excluir itens da tabela
     	excluirItem: function(id){
     		index = app.itens.indexOf(app.itens[id]);
     		app.itens.splice(index, 1);
@@ -38,6 +40,7 @@ var app = new Vue({
     	item: null 
     },
 
+    // método que executa na inicialização da página
     mounted: function(){
     	this.$nextTick(function (){
 	        this.buscarClientes();
@@ -51,6 +54,7 @@ var app = new Vue({
     },
 
     methods: {
+    	// busca todos os clientes e adiciona no select option
     	buscarClientes: function(event){
     		var self = this;
 	        $.ajax({
@@ -65,6 +69,7 @@ var app = new Vue({
 	        });
     	},
 
+    	// busca todos os produtos e adiciona no select option
     	buscarProdutos: function(event){
     		var self = this;
 	        $.ajax({
@@ -79,6 +84,7 @@ var app = new Vue({
 	        });
     	},
 
+    	// carrega um pedido do banco para modo edição
     	carregarPedido: function(json){
     		var self = this;
     		self.cliente = json['cliente'];
@@ -95,6 +101,7 @@ var app = new Vue({
     		}
     	},
 
+    	// evento para quando um produto é selecionado
     	produtoSelecionado: function(event){
     		var self = this;
     		self.item = self.produtos[self.produto -1];
@@ -112,6 +119,7 @@ var app = new Vue({
     		}
     	},
 
+    	// evento para validar a quantidade de itens (regra do multiplo)
     	validarQuantidade: function(event){
     		var self = this;
     		var quantidade = $('#quantidade').val();
@@ -131,6 +139,7 @@ var app = new Vue({
     		}
     	},
 
+    	// evento para validar o preço (regra rentabilidade)
     	validarPreco: function(event){
     		var self = this;
     		var preco = decimal($('#preco').val());
@@ -160,6 +169,7 @@ var app = new Vue({
     		}
     	},
 
+    	// evento quando um item é adicionado ao pedido
     	addItem: function(event){
     		try{
 	    		var self = this;
@@ -177,6 +187,7 @@ var app = new Vue({
     		}
     	},
 
+    	// evento quando um pedido é salvo
     	submit: function(event){
     		try{
     			var self = this;
