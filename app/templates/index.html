@@ -1,7 +1,51 @@
 {% extends "base.html" %}
   {% block body %}
   <div class="container">
-    <h1>Index</h1>
-    <p class="lead">Início index</p>
+    <p class="lead">Bem Vindo! Desafio Técnico</p>
+    <p class="lead">Candidato: Junior Tada</p>
+
+    <div class="row">
+      <div class="col-6">
+        <div class="card border-success">
+          <div class="card-body">
+            <h5 class="card-title"><i class="fas fa-users"></i> Clientes</h5>
+            <p class="card-text">Página com todos os clientes cadastrados</p>
+            <a href="{{ url_for('financeiro.cliente') }}" class="btn btn-success"><i class="fas fa-users"></i> Clientes</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="card border-danger">
+          <div class="card-body">
+            <h5 class="card-title"><i class="fas fa-cubes"></i> Produtos</h5>
+            <p class="card-text">Página com todos os produtos cadastrados</p>
+            <a href="{{ url_for('financeiro.produto') }}" class="btn btn-danger"><i class="fas fa-cubes"></i> Produtos</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+      <div class="col-6">
+        <div class="card border-info">
+          <div class="card-body">
+            <h5 class="card-title"><i class="fas fa-shopping-cart"></i> Pedidos</h5>
+            <p class="card-text">Página com todos os pedidos cadastrados</p>
+            <a href="{{ url_for('financeiro.pedido') }}" class="btn btn-info"><i class="fas fa-shopping-cart"></i> Pedidos</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="card border-primary">
+          <div class="card-body">
+            <h5 class="card-title"><i class="fas fa-cart-plus"></i> Novo Pedido</h5>
+            <p class="card-text">Página para fazer um novo pedido</p>
+            <a href="{{ url_for('financeiro.pedido_novo') }}" class="btn btn-primary"><i class="fas fa-cart-plus"></i> Novo Pedido</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div><!-- /.container -->
   {% endblock %}

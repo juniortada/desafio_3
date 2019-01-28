@@ -26,8 +26,15 @@
       </tbody>
     </table>
 
+    <div class="centro">
+      <button class="btn" onclick="location.href='{{ url_for('index') }}'" type="button"><i class="fa fa-undo" aria-hidden="true"></i> Voltar</button>
+    </div>
+
   </div><!-- /.container -->
 
+  {% endblock %}
+
+  {% block head %}
   <style type="text/css">
     .submenu{
       text-align: center;
