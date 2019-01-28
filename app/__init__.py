@@ -41,6 +41,9 @@ from app.financeiro.controller import financeiro
 # Registra blueprints
 app.register_blueprint(financeiro, url_prefix='/financeiro')
 
+def create_app(test_config=None):
+    return app
+
 # Define o locale BR
 def setlocale():
     try:

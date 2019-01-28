@@ -38,6 +38,7 @@ def _clientes():
         with sessao() as session:
             clientes = Dao(session).todos(Cliente)
             clientes = [{"id":str(i.id),"nome":i.nome} for i in clientes]
+            print(jsonify(clientes=clientes))
             return jsonify(clientes=clientes)
     except Exception as e:
         log.exception('Erro ajax clientes!' + str(e))
@@ -106,6 +107,8 @@ def pedido_novo():
                 if _salvar(pedido, dao):
                     flash('Pedido Salvo com Sucesso!', 'alert-success')
                     return redirect(url_for('financeiro.pedido'))
+                else:
+                    raise SalvarPedidoException()
         return render_template('financeiro/pedido_novo.html')
     except Exception as e:
         msg = 'Erro ao salvar pedido!'
@@ -129,6 +132,8 @@ def pedido_editar(id):
                     if _salvar(pedido, dao):
                         flash('Pedido Alterado com Sucesso!', 'alert-success')
                         return redirect(url_for('financeiro.pedido'))
+                    else:
+                        raise SalvarPedidoException()
                 itens = [{
                         'produto_id': str(item.produto_id), 'nome': item.produto.nome,
                         'quantidade': str(item.quantidade), 'preco': str(item.preco), 'total': str(item.total),
@@ -161,6 +166,8 @@ def _salvar(pedido, dao):
             cliente = dao.buscarID(Cliente, int(form['cliente']))
             if cliente:
                 pedido.cliente = cliente
+            else:
+                return False
         # limpa itens caso exista
         if pedido.itens:
             for i in pedido.itens:
@@ -178,6 +185,15 @@ def _salvar(pedido, dao):
                 novo_item.quantidade = int(item['quantidade'])
                 novo_item.rentabilidade = item['rentabilidade']
                 pedido.itens.append(novo_item)
+        else:
+            return False
         # salva no banco
         dao.salvar(pedido)
         return True
+
+
+class SalvarPedidoException(Exception):
+    """ Classe que implementa exception ao salvar pedido."""
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(self, *args, **kwargs)

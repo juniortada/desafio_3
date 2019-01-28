@@ -1,5 +1,6 @@
 {
   "DEBUG": true,
-  "CRIAR_DB": false,
-  "DB_URI": "postgresql+psycopg2://tadasoftware:1234@localhost/base"
+  "CRIAR_DB": true,
+  "DB_URI": "postgresql+psycopg2://ubuntu:1234@localhost/base",
+  "SECRET_KEY": "very_secret"
 }
