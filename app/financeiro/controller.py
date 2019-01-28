@@ -38,7 +38,6 @@ def _clientes():
         with sessao() as session:
             clientes = Dao(session).todos(Cliente)
             clientes = [{"id":str(i.id),"nome":i.nome} for i in clientes]
-            print(jsonify(clientes=clientes))
             return jsonify(clientes=clientes)
     except Exception as e:
         log.exception('Erro ajax clientes!' + str(e))
@@ -70,7 +69,7 @@ def _produtos():
     try:
         with sessao() as session:
             produtos = Dao(session).todos(Produto)
-            produtos = [{"id":str(i.id),"nome":i.nome, "preco":i.preco, "multiplo":i.multiplo} for i in produtos]
+            produtos = [{"id":str(i.id),"nome":i.nome, "preco":str(i.preco), "multiplo":str(i.multiplo)} for i in produtos]
             return jsonify(produtos=produtos)
     except Exception as e:
         log.exception('Erro ajax produtos!' + str(e))
